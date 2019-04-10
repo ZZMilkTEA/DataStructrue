@@ -29,7 +29,8 @@ public class Rational {
         }
         while (true) {
             //如果目前查找的函数在输入实数的误差范围内，则输出该分数（补充整数部分）
-            if ((double) num / den >= number_dec - delta && (double) num / den <= number_dec + delta) {                   this.num = num+den*number_int;
+            if ((double) num / den >= number_dec - delta && (double) num / den <= number_dec + delta) {
+                this.num = num+den*number_int;
                 this.num = num+den*number_int;
                 this.den = den;
                 break;  //找到则跳出循环
