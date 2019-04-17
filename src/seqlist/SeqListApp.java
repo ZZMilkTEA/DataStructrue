@@ -1,3 +1,5 @@
+//本来想写成窗体应用来测试顺序表的，想想小题大做了，放弃！
+
 package seqlist;
 
 import javax.swing.*;
