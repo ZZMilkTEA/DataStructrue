@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//堆串抽象数据类型
 typedef struct
 {
 	char* ch;
@@ -91,14 +92,14 @@ void get_next(HString *t, int* next) {
 }
 
 //串的KMP模式匹配
-int Index_KMP(HString *s, HString *t, int pos) {
+int index_KMP(HString *s, HString *t, int pos) {
 	int i = pos - 1;  
 	int j = 0;
 	int *next;
 	next = malloc(sizeof(int) * t->len);
 	get_next(t, next);
-	while (i < s->len&&j < t->len) {
-		if (s->ch[i] == t->ch[j] || j == -1) {
+	while (i < s->len && j < t->len) {
+		if (s -> ch[i] == t -> ch[j] || j == -1) {
 			++i;
 			++j; 
 		}
@@ -123,4 +124,7 @@ void strOutput(HString *s) {
 	}
 }
 
-
+//串销毁
+void strDestory(HString *s) {
+	free(s);
+}
