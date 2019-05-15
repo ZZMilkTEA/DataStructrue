@@ -33,6 +33,7 @@ public class Triple {
         return e;
     }
 
+    //用来输出元素
     @Override
     public String toString() {
         return  "(" + this.getRow() + "," + this.getCol() + "," + this.getE() + ")";
