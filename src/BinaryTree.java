@@ -46,11 +46,13 @@ public class BinaryTree {
         }
     }
     //------------定义二叉树的部分------------
-    private ArrayList<Node> nodes;
-
+    private ArrayList<Node> nodes = new ArrayList<Node>();
+    private Node root;
     //构造新树，同时创建一个根节点
     BinaryTree(int rootData){
-        this.nodes.add(new Node(rootData));
+        Node newRootNode = new Node(rootData);
+       this.root = newRootNode;
+       this.nodes.add(this.root);
     }
 
     //对已有节点创建一个左孩子
@@ -94,7 +96,10 @@ public class BinaryTree {
 
     public static void main (String args[]){
         BinaryTree tree = new BinaryTree(4);
-        tree.createNewLeftNode();
+        tree.createNewLeftNode(tree.root,2);
+        tree.createNewRightNode(tree.root,3);
+        tree.createNewRightNode(tree.nodes.get(2),4);
+        System.out.println(tree.root.rightNode.rightNode.getData());
     }
 
 
