@@ -2,7 +2,7 @@ package tree;
 
 public class Node<T> {
 
-    T data;   // 结点数据
+    public T data;   // 结点数据
     Node<T> left;  // 指向左孩子结点
     Node<T> right;  // 指向右孩子结点
     boolean isFirst;  // 用于非递归后序遍历
@@ -16,6 +16,8 @@ public class Node<T> {
      */
     public Node(T data) {
         this.data = data;
+        this.left = null;
+        this.right = null;
     }
 
     @Override

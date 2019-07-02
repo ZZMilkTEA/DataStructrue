@@ -4,20 +4,24 @@
 package tree;
 
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class BinaryTree<E> {
-        //定义二叉树内的节点
+    //定义二叉树内的节点
     /**
      * Title: 结点类
      * Description: 二叉树的结点
      */
 
-    /**  二叉树的根结点    */
+    /**
+     * 二叉树的根结点
+     */
     private Node<E> root;
 
 
     /**
      * 无参构造函数
+     *
      * @description 默认无参构造函数
      */
     public BinaryTree() {
@@ -27,9 +31,8 @@ public class BinaryTree<E> {
     /**
      * 构造函数
      *
+     * @param node 原树的根结点
      * @description 根据一个树的根结点复制构造树
-     * @param node
-     *            原树的根结点
      */
     public BinaryTree(Node<E> node) {
         // TODO Auto-generated constructor stub
@@ -39,8 +42,9 @@ public class BinaryTree<E> {
 
     /**
      * 构造函数
-     * @description 根据一个树的前序遍历结果复制构造树
+     *
      * @param preOrderStr
+     * @description 根据一个树的前序遍历结果复制构造树
      */
     public BinaryTree(char[] preOrderStr) {
         root = createTreeByPreOrederStr(preOrderStr, null);
@@ -49,22 +53,23 @@ public class BinaryTree<E> {
 
     /**
      * 构造函数
-     * @description 根据一个树的前序遍历+中序遍历(或中序遍历+后序遍历)复制构造树
+     *
      * @param s1
      * @param s2
      * @param isPreIn
+     * @description 根据一个树的前序遍历+中序遍历(或中序遍历+后序遍历)复制构造树
      */
     public BinaryTree(String s1, String s2, boolean isPreIn) {
         if (isPreIn) {
             root = createBinaryTreeByPreAndIn(s1, s2);
-        }else{
+        } else {
             root = createBinaryTreeByInAndPost(s1, s2);
         }
     }
 
     /**
-     * @description 根据广义表表达式创建树
      * @param exp 广义表
+     * @description 根据广义表表达式创建树
      */
     public void createBinaryTree(String exp) {
         LinkedList<Node<E>> stack = new LinkedList<Node<E>>(); // 辅助栈
@@ -114,8 +119,8 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 根据广义表表达式创建树
      * @param exp 广义表
+     * @description 根据广义表表达式创建树
      */
     public static Node createBinaryTree(String exp, Node root) {
         LinkedList<Node> stack = new LinkedList<Node>(); // 辅助栈
@@ -166,8 +171,8 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 广序/层次遍历，工作队列
      * @return
+     * @description 广序/层次遍历，工作队列
      */
     public String levelOrder() {
         StringBuilder sb = new StringBuilder();
@@ -189,9 +194,9 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 前序遍历(递归)
      * @param root
      * @return
+     * @description 前序遍历(递归)
      */
     public String preOrder(Node<E> root) {
         StringBuilder sb = new StringBuilder(); // 存到递归调用栈
@@ -204,8 +209,8 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 前序遍历(迭代):非线性结构(树)，工作栈：当前节点入栈
      * @return
+     * @description 前序遍历(迭代):非线性结构(树)，工作栈：当前节点入栈
      */
     public String preOrder() {
 
@@ -227,9 +232,9 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 中序遍历(递归)
      * @param root
      * @return
+     * @description 中序遍历(递归)
      */
     public String inOrder(Node<E> root) {
         StringBuilder sb = new StringBuilder(); // 存到递归调用栈
@@ -242,9 +247,8 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 中序遍历(迭代)：非线性结构(树)，工作栈：当前节点入栈
-     *
      * @return
+     * @description 中序遍历(迭代)：非线性结构(树)，工作栈：当前节点入栈
      */
     public String inOrder() {
         StringBuilder sb = new StringBuilder();
@@ -265,9 +269,9 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 后序遍历(递归)
      * @param root
      * @return
+     * @description 后序遍历(递归)
      */
     public String postOrder(Node<E> root) {
         StringBuilder sb = new StringBuilder(); // 存到递归调用栈
@@ -280,9 +284,9 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 后序遍历(迭代):非线性结构(树)，工作栈：当前节点入栈
-     *              第三次遍历一个节点时才访问,因此需要在节点Node中新增一个bool字段，用于标记是否需要在本次访问该节点
      * @return
+     * @description 后序遍历(迭代):非线性结构(树)，工作栈：当前节点入栈
+     * 第三次遍历一个节点时才访问,因此需要在节点Node中新增一个bool字段，用于标记是否需要在本次访问该节点
      */
     public String postOrder() {
         StringBuilder sb = new StringBuilder();
@@ -308,9 +312,39 @@ public class BinaryTree<E> {
         return sb.toString();
     }
 
+    public LinkedList<Node<E>> getPath(E name) {
+        // 从根节点开始搜索
+        LinkedList<Node<E>> stack = new LinkedList<Node<E>>(); // 工作栈：记录路径
+        Node<E> node = root;
+        Node<E> pre = null;
+
+        while (node != null || !stack.isEmpty()) { // 迭代条件
+            while(node != null) {
+                //这个while循环的思想还是一直往左找，找的过程结点入栈，如果找到了就打印输出并返回。
+                stack.push(node);
+                if(node.data == name) {
+                        return stack;
+                }
+                node = node.left;
+            }
+            //走到这一步说明栈顶元素的左子树为null，那么就开始往栈顶元素的右子树上去找。
+            if(!stack.isEmpty()) {
+                node = stack.peek();
+                //如果栈顶元素的右子树为null，或者右子树被遍历过，则弹栈。
+                while(node.right == null || (pre != null && node.right == pre)) {
+                    pre = stack.pop();
+                    node = stack.peek();
+                }
+                //继续遍历p的右子树
+                node = node.right;
+            }
+        }
+        return stack;
+    }
+
     /**
-     * @description 根据前序、中序遍历结果重建二叉树
      * @return
+     * @description 根据前序、中序遍历结果重建二叉树
      */
     public Node<E> createBinaryTreeByPreAndIn(String pre, String in) {
         if (pre.length() > 0) {
@@ -327,8 +361,8 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 根据中序、后序遍历结果重建二叉树
      * @return
+     * @description 根据中序、后序遍历结果重建二叉树
      */
     public Node<E> createBinaryTreeByInAndPost(String in, String post) {
         if (post.length() > 0) {
@@ -346,9 +380,9 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 根据原树的根结点复制出一颗一模一样的树
      * @param root
      * @return
+     * @description 根据原树的根结点复制出一颗一模一样的树
      */
     public Node<E> copy(Node<E> root) {
         if (root == null)
@@ -360,14 +394,16 @@ public class BinaryTree<E> {
         return node;
     }
 
-    /** 方法createTreeByPreOrederStr需要用到的指针 (@author: rico) */
+    /**
+     * 方法createTreeByPreOrederStr需要用到的指针 (@author: rico)
+     */
     private int index = 0;
 
     /**
-     * @description 根据前序遍历结果重建二叉树，所有的叶子节点都用"#"表示
      * @param preOrderStr
      * @param temp
      * @return
+     * @description 根据前序遍历结果重建二叉树，所有的叶子节点都用"#"表示
      */
     public Node<E> createTreeByPreOrederStr(char[] preOrderStr, Node<E> temp) {
         if (index < preOrderStr.length) {
@@ -384,35 +420,35 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 获取树的根结点
      * @return
+     * @description 获取树的根结点
      */
     public Node<E> getRoot() {
         return root;
     }
 
     /**
-     * @description 获得当前结点的左孩子结点
      * @param node
      * @return
+     * @description 获得当前结点的左孩子结点
      */
     public Node<E> getLeftChild(Node<E> node) {
         return node.left;
     }
 
     /**
-     * @description 获得当前结点的右孩子结点
      * @param node
      * @return
+     * @description 获得当前结点的右孩子结点
      */
     public Node<E> getRightChild(Node<E> node) {
         return node.right;
     }
 
     /**
-     * @description 后序遍历的思想：树中节点个数
      * @param root
      * @return
+     * @description 后序遍历的思想：树中节点个数
      */
     public int size(Node<E> root) {
         if (root != null) { // 递归终止条件
@@ -422,9 +458,9 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 后序遍历的思想：树的高度(空树为0)
      * @param root
      * @return
+     * @description 后序遍历的思想：树的高度(空树为0)
      */
     public int height(Node<E> root) {
         if (root != null) { // 递归终止条件
@@ -436,9 +472,9 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 以广义表的形式打印二叉树：前序遍历的应用
      * @param root
      * @return
+     * @description 以广义表的形式打印二叉树：前序遍历的应用
      */
     public String printBinaryTree(Node<E> root) {
         StringBuilder sb = new StringBuilder();
@@ -462,12 +498,10 @@ public class BinaryTree<E> {
     }
 
     /**
-     * @description 根据树的根结点判断两颗树是否相等
-     * @param src
-     *            原树的根结点
-     * @param des
-     *            目标树的根结点
+     * @param src 原树的根结点
+     * @param des 目标树的根结点
      * @return
+     * @description 根据树的根结点判断两颗树是否相等
      */
     private boolean equals0(Node<E> src, Node<E> des) {
         if (src == null && des == null) { // 空树相等
@@ -490,14 +524,81 @@ public class BinaryTree<E> {
         return false;
     }
 
-    public static void main(String args[]){
-        String input = new String("k(e(a,c),c(b,s))");
-        BinaryTree<String> tree = new BinaryTree<String>();
-        tree.createBinaryTree(input);
-        System.out.println("树的高度：" + tree.height(tree.getRoot()));
-        System.out.println("树的节点个数:" + tree.size(tree.getRoot()));
-        System.out.println(tree.printBinaryTree(tree.getRoot()));
+    public static void main(String args[]) {
+        Scanner scanner = new Scanner(System.in);
+        BinaryTree<Character> tree =null;
 
+        while (true) {
+            System.out.println("-----菜单------\n" +
+                    "1.建立二叉树存储结构\n" +
+                    "2.求二叉树的先序遍历序列\n" +
+                    "3.求二叉树的中序遍历序列\n" +
+                    "4.求二叉树的后序遍历序列\n" +
+                    "5.求二叉树的层序遍历序列\n" +
+                    "6.求根结点到指定结点的路径\n" +
+                    "0.退出\n");
+            int input = scanner.nextInt();
+            if (input == 1) {
+                System.out.println("-----建立二叉树存储结构------\n" +
+                        "利用广义表输入建树字符，节点名（左，右），例：\"k(e(a,c),c(b,s))\"：");
+                String inputString = scanner.next();
+                tree = new BinaryTree<Character>();
+                tree.createBinaryTree(inputString);
+                System.out.println("二叉树建立成功！");
+            }
+            if (input == 2) {
+                if(tree == null){
+                    System.out.println("树未建立！返回");
+                    continue;
+                }
+                System.out.println("-----求二叉树的先序遍历序列------\n");
+                System.out.println(tree.preOrder());
+
+            }
+            if (input == 3) {
+                if(tree == null){
+                    System.out.println("树未建立！返回");
+                    continue;
+                }
+                System.out.println("-----求二叉树的中序遍历序列------\n");
+                System.out.println(tree.inOrder());
+            }
+            if (input == 4) {
+                if(tree == null){
+                    System.out.println("树未建立！返回");
+                    continue;
+                }
+                System.out.println("-----求二叉树的后序遍历序列------\n");
+                System.out.println(tree.postOrder());
+            }
+            if (input == 5) {
+                if(tree == null){
+                    System.out.println("树未建立！返回");
+                    continue;
+                }
+                System.out.println("-----求二叉树的层序遍历序列------\n");
+                System.out.println(tree.levelOrder());
+            }
+            if (input == 6) {
+                if(tree == null){
+                    System.out.println("树未建立！返回");
+                    continue;
+                }
+                System.out.println("-----求根结点到指定结点的路径------\n" +
+                        "输入目标结点的字母：");
+                String name = scanner.next();
+                Character ch = name.charAt(0);
+                LinkedList<Node<Character>> path = tree.getPath(ch);
+                System.out.print("路径：");
+                for (int i = path.size()-1; i >= 0; i--) {
+                    System.out.print(path.get(i) + " ");
+                }
+                System.out.println();
+            }
+            if (input == 0) {
+                return;
+            }
+        }
     }
 }
 

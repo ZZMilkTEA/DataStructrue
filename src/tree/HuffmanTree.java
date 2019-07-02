@@ -194,10 +194,43 @@ public class HuffmanTree {
 
 
     public static void main (String args[]){
+        Scanner scanner = new Scanner(System.in);
         HuffmanTree tree = new HuffmanTree();
-        String input = "SDDADSSDA";
-        WeightNode root = tree.huffmanStringTreeCreate(input);
-        System.out.println(tree.huffmanStringCode("SDDADSSDA"));
-        System.out.println(HuffmanTree.huffmanStringDecode(root,"01001011101"));
+        WeightNode root = null;
+
+        while (true){
+            System.out.println("-----菜单------\n" +
+                    "1.建立哈夫曼树\n" +
+                    "2.哈夫曼编码\n" +
+                    "3.译码\n" +
+                    "0.退出");
+            int input = scanner.nextInt();
+            if (input == 1){
+               tree = new HuffmanTree();
+               System.out.println("-----建立哈夫曼树------\n" +
+                       "输入建树用字符：");
+               String inputString = scanner.next();
+               root = tree.huffmanStringTreeCreate(inputString);
+               System.out.println("哈夫曼树建立成功！");
+            }
+            if (input == 2){
+                System.out.println("-----哈夫曼编码------\n" +
+                        "输入编码字符，使用建树时的字符：");
+                String inputString = scanner.next();
+                System.out.println("Huffman编码为：");
+                System.out.println(tree.huffmanStringCode(inputString));
+
+            }
+            if (input == 3){
+                System.out.println("-----译码------\n" +
+                        "输入Huffman编码,仅输入0和1：");
+                String inputString = scanner.next();
+                System.out.println("译码为：");
+                System.out.println(HuffmanTree.huffmanStringDecode(root,inputString));
+            }
+            if (input == 0){
+                return;
+            }
+        }
     }
 }
